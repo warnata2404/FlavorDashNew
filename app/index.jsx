@@ -33,14 +33,6 @@ export default function HomeScreen() {
     router.replace("/");
   }
 
-  function handleCameraPress() {
-    router.push("/(protected)/camera");
-  }
-
-  function handleMapPress() {
-    router.push("/(protected)/map");
-  }
-
   if (loading) {
     return <Loading message="Loading foods..." />;
   }
@@ -60,17 +52,7 @@ export default function HomeScreen() {
 
       <View style={styles.headerAction}>
         {authenticated ? (
-          <>
-            <AppButton title="Camera" onPress={handleCameraPress} />
-
-            <View style={styles.buttonGap} />
-
-            <AppButton title="Map" onPress={handleMapPress} />
-
-            <View style={styles.buttonGap} />
-
-            <AppButton title="Logout" onPress={handleLogoutPress} />
-          </>
+          <AppButton title="Logout" onPress={handleLogoutPress} />
         ) : (
           <AppButton title="Login" onPress={handleLoginPress} />
         )}
@@ -105,10 +87,6 @@ const styles = StyleSheet.create({
   headerAction: {
     paddingHorizontal: Spacing.screenPadding,
     paddingBottom: Spacing.md,
-  },
-
-  buttonGap: {
-    height: Spacing.sm,
   },
 
   list: {

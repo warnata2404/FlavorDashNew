@@ -1,8 +1,26 @@
+const orders = [];
+
 export async function createOrder(food) {
-  return {
+  const order = {
     id: Date.now(),
     food,
     orderDate: new Date().toISOString(),
     status: "SUCCESS",
   };
+
+  orders.push(order);
+
+  return order;
+}
+
+export async function getOrders() {
+  return [...orders];
+}
+
+export async function getOrderById(orderId) {
+  return orders.find((order) => order.id === Number(orderId)) ?? null;
+}
+
+export async function clearOrders() {
+  orders.length = 0;
 }

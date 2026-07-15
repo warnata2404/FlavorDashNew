@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-import { createOrder } from "../services/orderService";
+import {
+  clearOrders,
+  createOrder,
+  getOrderById,
+  getOrders,
+} from "../services/orderService";
 
 export default function useOrder() {
   const [loading, setLoading] = useState(false);
@@ -18,5 +23,8 @@ export default function useOrder() {
   return {
     order,
     loading,
+    getOrders,
+    getOrderById,
+    clearOrders,
   };
 }
