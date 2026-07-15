@@ -5,6 +5,7 @@ import {
   createOrder,
   getOrderById,
   getOrders,
+  hasOrderedFood,
 } from "../services/orderService";
 
 export default function useOrder() {
@@ -25,6 +26,7 @@ export default function useOrder() {
     loading,
     getOrders,
     getOrderById,
+    hasOrderedFood,
     clearOrders,
   };
 }

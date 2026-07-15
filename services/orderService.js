@@ -21,6 +21,10 @@ export async function getOrderById(orderId) {
   return orders.find((order) => order.id === Number(orderId)) ?? null;
 }
 
+export async function hasOrderedFood(foodId) {
+  return orders.some((order) => order.food.id === Number(foodId));
+}
+
 export async function clearOrders() {
   orders.length = 0;
 }

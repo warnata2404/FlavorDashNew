@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
 import AppButton from "../../components/AppButton";
@@ -7,17 +8,44 @@ import Loading from "../../components/Loading";
 import useFoodDetail from "../../hooks/useFoodDetail";
 import useOrder from "../../hooks/useOrder";
 import { Colors, Spacing, Typography } from "../../styles";
+import { formatCurrency } from "../../utils/currency";
 
 export default function OrderDetailScreen() {
   const { foodId } = useLocalSearchParams();
 
   const { food, loading, error } = useFoodDetail(foodId);
 
-  const { order, loading: ordering } = useOrder();
+  const { order, loading: ordering, hasOrderedFood } = useOrder();
+
+  const [ordered, setOrdered] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function checkOrderStatus() {
+      if (!food) {
+        return;
+      }
+
+      const exists = await hasOrderedFood(food.id);
+
+      if (isMounted) {
+        setOrdered(exists);
+      }
+    }
+
+    checkOrderStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [food, hasOrderedFood]);
 
   async function handleOrder() {
     try {
       const result = await order(food);
+
+      setOrdered(true);
 
       router.replace({
         pathname: "/(protected)/order/confirmation",
@@ -55,13 +83,19 @@ export default function OrderDetailScreen() {
 
         <Text style={styles.category}>{food.category}</Text>
 
-        <Text style={styles.price}>{food.price}</Text>
+        <Text style={styles.price}>{formatCurrency(food.price)}</Text>
 
         <View style={styles.buttonContainer}>
           <AppButton
-            title={ordering ? "Ordering..." : "Order Now"}
+            title={
+              ordered
+                ? "Already Ordered"
+                : ordering
+                  ? "Ordering..."
+                  : "Order Now"
+            }
             onPress={handleOrder}
-            disabled={ordering}
+            disabled={ordering || ordered}
           />
         </View>
       </View>

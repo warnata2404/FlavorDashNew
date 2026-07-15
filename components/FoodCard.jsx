@@ -1,6 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Colors, Spacing, Typography } from "../styles";
+import { formatCurrency } from "../utils/currency";
 
 export default function FoodCard({ name, category, price, image, onPress }) {
   return (
@@ -19,7 +20,7 @@ export default function FoodCard({ name, category, price, image, onPress }) {
           {category}
         </Text>
 
-        <Text style={styles.price}>{price}</Text>
+        <Text style={styles.price}>{formatCurrency(price)}</Text>
       </View>
     </Pressable>
   );
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 180,
-    backgroundColor: Colors.divider,
+    backgroundColor: Colors.surface,
   },
 
   content: {
