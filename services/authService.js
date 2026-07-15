@@ -1,25 +1,25 @@
 import * as SecureStore from "expo-secure-store";
 
-const TOKEN_KEY = "auth_token";
+import { AUTH } from "../constants/auth";
 
 export async function login(username, password) {
-  if (username !== "admin" || password !== "admin123") {
+  if (username !== AUTH.USERNAME || password !== AUTH.PASSWORD) {
     throw new Error("Invalid username or password.");
   }
 
-  const token = `mock-jwt-token-${Date.now()}`;
+  const token = "mock-jwt-token";
 
-  await SecureStore.setItemAsync(TOKEN_KEY, token);
+  await SecureStore.setItemAsync(AUTH.TOKEN_KEY, token);
 
   return token;
 }
 
 export async function logout() {
-  await SecureStore.deleteItemAsync(TOKEN_KEY);
+  await SecureStore.deleteItemAsync(AUTH.TOKEN_KEY);
 }
 
 export async function getToken() {
-  return SecureStore.getItemAsync(TOKEN_KEY);
+  return SecureStore.getItemAsync(AUTH.TOKEN_KEY);
 }
 
 export async function isAuthenticated() {

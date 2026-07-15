@@ -1,3 +1,5 @@
+import { ORDER } from "../constants/order";
+
 const orders = [];
 
 export async function createOrder(food) {
@@ -5,7 +7,7 @@ export async function createOrder(food) {
     id: Date.now(),
     food,
     orderDate: new Date().toISOString(),
-    status: "SUCCESS",
+    status: ORDER.STATUS_SUCCESS,
   };
 
   orders.push(order);

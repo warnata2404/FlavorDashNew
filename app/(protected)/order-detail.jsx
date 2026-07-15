@@ -5,6 +5,7 @@ import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import AppButton from "../../components/AppButton";
 import EmptyState from "../../components/EmptyState";
 import Loading from "../../components/Loading";
+import { ORDER } from "../../constants/order";
 import useFoodDetail from "../../hooks/useFoodDetail";
 import useOrder from "../../hooks/useOrder";
 import Routes from "../../navigation/routes";
@@ -57,7 +58,7 @@ export default function OrderDetailScreen() {
       });
     } catch (err) {
       Alert.alert(
-        "Order Failed",
+        ORDER.ALERT_FAILED,
         err instanceof Error ? err.message : "Failed to create order.",
       );
     }
