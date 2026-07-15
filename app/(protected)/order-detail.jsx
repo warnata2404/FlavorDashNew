@@ -7,6 +7,7 @@ import EmptyState from "../../components/EmptyState";
 import Loading from "../../components/Loading";
 import useFoodDetail from "../../hooks/useFoodDetail";
 import useOrder from "../../hooks/useOrder";
+import Routes from "../../navigation/routes";
 import { Colors, Spacing, Typography } from "../../styles";
 import { formatCurrency } from "../../utils/currency";
 
@@ -48,7 +49,7 @@ export default function OrderDetailScreen() {
       setOrdered(true);
 
       router.replace({
-        pathname: "/(protected)/order/confirmation",
+        pathname: Routes.ORDER_CONFIRMATION,
         params: {
           orderId: result.id.toString(),
           foodName: food.name,

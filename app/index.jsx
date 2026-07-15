@@ -8,6 +8,7 @@ import FoodCard from "../components/FoodCard";
 import Loading from "../components/Loading";
 import { useAuth } from "../context/AuthContext";
 import useFoods from "../hooks/useFoods";
+import Routes from "../navigation/routes";
 import { Colors, Spacing } from "../styles";
 
 export default function HomeScreen() {
@@ -16,7 +17,7 @@ export default function HomeScreen() {
 
   function handleFoodPress(food) {
     router.push({
-      pathname: "/(protected)/order-detail",
+      pathname: Routes.ORDER_DETAIL,
       params: {
         foodId: food.id.toString(),
       },
@@ -24,13 +25,13 @@ export default function HomeScreen() {
   }
 
   function handleLoginPress() {
-    router.push("/(auth)/login");
+    router.push(Routes.LOGIN);
   }
 
   async function handleLogoutPress() {
     await signOut();
 
-    router.replace("/");
+    router.replace(Routes.HOME);
   }
 
   if (loading) {

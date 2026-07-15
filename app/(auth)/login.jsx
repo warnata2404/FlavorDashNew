@@ -4,6 +4,7 @@ import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 
 import AppButton from "../../components/AppButton";
 import { useAuth } from "../../context/AuthContext";
+import Routes from "../../navigation/routes";
 import { Colors, Spacing, Typography } from "../../styles";
 
 export default function LoginScreen() {
@@ -28,7 +29,7 @@ export default function LoginScreen() {
         {
           text: "OK",
           onPress: () => {
-            router.replace("/");
+            router.replace(Routes.HOME);
           },
         },
       ]);

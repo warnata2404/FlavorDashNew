@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 import AppButton from "../../../components/AppButton";
+import Routes from "../../../navigation/routes";
 import { Colors, Spacing, Typography } from "../../../styles";
 
 export default function OrderConfirmationScreen() {
@@ -27,19 +28,19 @@ export default function OrderConfirmationScreen() {
 
       <AppButton
         title="Open Camera"
-        onPress={() => router.push("/(protected)/camera")}
+        onPress={() => router.push(Routes.CAMERA)}
       />
+
+      <View style={styles.gap} />
+
+      <AppButton title="Open Map" onPress={() => router.push(Routes.MAP)} />
 
       <View style={styles.gap} />
 
       <AppButton
-        title="Open Map"
-        onPress={() => router.push("/(protected)/map")}
+        title="Back to Home"
+        onPress={() => router.replace(Routes.HOME)}
       />
-
-      <View style={styles.gap} />
-
-      <AppButton title="Back to Home" onPress={() => router.replace("/")} />
     </View>
   );
 }
