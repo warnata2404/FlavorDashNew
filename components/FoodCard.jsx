@@ -8,15 +8,7 @@ export default function FoodCard({ name, category, price, image, onPress }) {
       onPress={onPress}
       style={({ pressed }) => [styles.card, pressed && styles.pressed]}
     >
-      <Image
-        source={
-          image
-            ? { uri: image }
-            : require("../assets/images/food-placeholder.png")
-        }
-        style={styles.image}
-        resizeMode="cover"
-      />
+      <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
 
       <View style={styles.content}>
         <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
