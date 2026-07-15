@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 
@@ -23,10 +24,14 @@ export default function LoginScreen() {
 
       await signIn(username.trim(), password);
 
-      Alert.alert(
-        "Berhasil",
-        "Login berhasil. Route Protection akan diimplementasikan pada PHASE 07.",
-      );
+      Alert.alert("Berhasil", "Login berhasil.", [
+        {
+          text: "OK",
+          onPress: () => {
+            router.replace("/");
+          },
+        },
+      ]);
     } catch (error) {
       Alert.alert(
         "Login Gagal",

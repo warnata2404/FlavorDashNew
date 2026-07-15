@@ -1,9 +1,39 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { Image, StyleSheet, Text, View } from "react-native";
+
+import EmptyState from "../../components/EmptyState";
+import Loading from "../../components/Loading";
+import useFoodDetail from "../../hooks/useFoodDetail";
+import { Colors, Spacing, Typography } from "../../styles";
 
 export default function OrderDetailScreen() {
+  const { foodId } = useLocalSearchParams();
+
+  const { food, loading, error } = useFoodDetail(foodId);
+
+  if (loading) {
+    return <Loading message="Loading food detail..." />;
+  }
+
+  if (error) {
+    return <EmptyState title="Food Not Found" message={error} />;
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Order Detail</Text>
+      <Image
+        source={{ uri: food.image }}
+        style={styles.image}
+        resizeMode="cover"
+      />
+
+      <View style={styles.content}>
+        <Text style={styles.name}>{food.name}</Text>
+
+        <Text style={styles.category}>{food.category}</Text>
+
+        <Text style={styles.price}>{food.price}</Text>
+      </View>
     </View>
   );
 }
@@ -11,14 +41,33 @@ export default function OrderDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: 24,
+    backgroundColor: Colors.background,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#000000",
+
+  image: {
+    width: "100%",
+    height: 260,
+    backgroundColor: Colors.surface,
+  },
+
+  content: {
+    padding: Spacing.screenPadding,
+  },
+
+  name: {
+    ...Typography.heading2,
+    color: Colors.text,
+  },
+
+  category: {
+    ...Typography.body,
+    color: Colors.textSecondary,
+    marginTop: Spacing.sm,
+  },
+
+  price: {
+    ...Typography.heading3,
+    color: Colors.primary,
+    marginTop: Spacing.lg,
   },
 });
