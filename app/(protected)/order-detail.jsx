@@ -1,15 +1,35 @@
 import { useLocalSearchParams } from "expo-router";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
+import AppButton from "../../components/AppButton";
 import EmptyState from "../../components/EmptyState";
 import Loading from "../../components/Loading";
 import useFoodDetail from "../../hooks/useFoodDetail";
+import useOrder from "../../hooks/useOrder";
 import { Colors, Spacing, Typography } from "../../styles";
 
 export default function OrderDetailScreen() {
   const { foodId } = useLocalSearchParams();
 
   const { food, loading, error } = useFoodDetail(foodId);
+
+  const { order, loading: ordering } = useOrder();
+
+  async function handleOrder() {
+    try {
+      const result = await order(food);
+
+      Alert.alert(
+        "Order Success",
+        `Order #${result.id} has been created successfully.`,
+      );
+    } catch (err) {
+      Alert.alert(
+        "Order Failed",
+        err instanceof Error ? err.message : "Failed to create order.",
+      );
+    }
+  }
 
   if (loading) {
     return <Loading message="Loading food detail..." />;
@@ -33,6 +53,14 @@ export default function OrderDetailScreen() {
         <Text style={styles.category}>{food.category}</Text>
 
         <Text style={styles.price}>{food.price}</Text>
+
+        <View style={styles.buttonContainer}>
+          <AppButton
+            title={ordering ? "Ordering..." : "Order Now"}
+            onPress={handleOrder}
+            disabled={ordering}
+          />
+        </View>
       </View>
     </View>
   );
@@ -69,5 +97,9 @@ const styles = StyleSheet.create({
     ...Typography.heading3,
     color: Colors.primary,
     marginTop: Spacing.lg,
+  },
+
+  buttonContainer: {
+    marginTop: Spacing.xl,
   },
 });
