@@ -1,5 +1,7 @@
+import { router } from "expo-router";
 import { FlatList, StyleSheet, View } from "react-native";
 
+import AppButton from "../components/AppButton";
 import AppHeader from "../components/AppHeader";
 import EmptyState from "../components/EmptyState";
 import FoodCard from "../components/FoodCard";
@@ -13,6 +15,10 @@ export default function HomeScreen() {
   function handleFoodPress(food) {
     // Navigasi ke halaman Detail Pesanan akan diimplementasikan pada PHASE 08.
     void food;
+  }
+
+  function handleLoginPress() {
+    router.push("/(auth)/login");
   }
 
   if (loading) {
@@ -31,6 +37,10 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <AppHeader title="FlavorDash" subtitle="Discover your favorite foods" />
+
+      <View style={styles.headerAction}>
+        <AppButton title="Login" onPress={handleLoginPress} />
+      </View>
 
       <FlatList
         data={foods}
@@ -58,8 +68,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
 
+  headerAction: {
+    paddingHorizontal: Spacing.screenPadding,
+    paddingBottom: Spacing.md,
+  },
+
   list: {
-    padding: Spacing.screenPadding,
+    paddingHorizontal: Spacing.screenPadding,
+    paddingBottom: Spacing.screenPadding,
   },
 
   separator: {
