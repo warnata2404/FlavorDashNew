@@ -6,19 +6,31 @@ import AppHeader from "../components/AppHeader";
 import EmptyState from "../components/EmptyState";
 import FoodCard from "../components/FoodCard";
 import Loading from "../components/Loading";
+import { useAuth } from "../context/AuthContext";
 import useFoods from "../hooks/useFoods";
 import { Colors, Spacing } from "../styles";
 
 export default function HomeScreen() {
   const { foods, loading } = useFoods();
+  const { authenticated, signOut } = useAuth();
 
   function handleFoodPress(food) {
-    // Navigasi ke halaman Detail Pesanan akan diimplementasikan pada PHASE 08.
-    void food;
+    router.push({
+      pathname: "/(protected)/order-detail",
+      params: {
+        foodId: food.id.toString(),
+      },
+    });
   }
 
   function handleLoginPress() {
     router.push("/(auth)/login");
+  }
+
+  async function handleLogoutPress() {
+    await signOut();
+
+    router.replace("/");
   }
 
   if (loading) {
@@ -39,7 +51,11 @@ export default function HomeScreen() {
       <AppHeader title="FlavorDash" subtitle="Discover your favorite foods" />
 
       <View style={styles.headerAction}>
-        <AppButton title="Login" onPress={handleLoginPress} />
+        {authenticated ? (
+          <AppButton title="Logout" onPress={handleLogoutPress} />
+        ) : (
+          <AppButton title="Login" onPress={handleLoginPress} />
+        )}
       </View>
 
       <FlatList
