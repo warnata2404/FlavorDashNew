@@ -8,13 +8,11 @@ export default function EmptyState({
 }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-        {title}
-      </Text>
+      <Text style={styles.icon}>🍽️</Text>
 
-      <Text style={styles.message} numberOfLines={3} ellipsizeMode="tail">
-        {message}
-      </Text>
+      <Text style={styles.title}>{title}</Text>
+
+      <Text style={styles.message}>{message}</Text>
     </View>
   );
 }
@@ -22,22 +20,40 @@ export default function EmptyState({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     justifyContent: "center",
     alignItems: "center",
+
     padding: Spacing.screenPadding,
+
     backgroundColor: Colors.background,
+  },
+
+  icon: {
+    fontSize: 56,
+
+    marginBottom: Spacing.lg,
   },
 
   title: {
     ...Typography.heading3,
+
     color: Colors.text,
+
     textAlign: "center",
   },
 
   message: {
     ...Typography.body,
+
     color: Colors.textSecondary,
+
     textAlign: "center",
-    marginTop: Spacing.sm,
+
+    marginTop: Spacing.md,
+
+    lineHeight: 24,
+
+    maxWidth: 300,
   },
 });

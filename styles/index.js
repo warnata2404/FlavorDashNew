@@ -1,4 +1,5 @@
-export { default as Colors } from "./colors";
-export { default as Spacing } from "./spacing";
-export { default as Typography } from "./typography";
-export { default as Theme } from "./theme";
+import Colors from "./colors";
+import Spacing from "./spacing";
+import Typography from "./typography";
+
+export { Colors, Spacing, Typography };

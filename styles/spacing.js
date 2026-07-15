@@ -1,20 +1,17 @@
 const Spacing = {
   xs: 4,
   sm: 8,
-  md: 16,
-  lg: 24,
-  xl: 32,
-  xxl: 40,
+  md: 12,
+  lg: 16,
+  xl: 24,
+  xxl: 32,
 
-  screenPadding: 16,
+  screenPadding: 20,
   cardPadding: 16,
 
-  sectionGap: 24,
-  itemGap: 12,
-
-  borderRadiusSmall: 8,
-  borderRadius: 12,
-  borderRadiusLarge: 16,
+  borderRadius: 16,
+  inputRadius: 12,
+  buttonRadius: 12,
 };
 
 export default Spacing;

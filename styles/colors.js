@@ -1,27 +1,27 @@
 const Colors = {
-  primary: "#2563EB",
-  primaryDark: "#1D4ED8",
-  secondary: "#F59E0B",
+  primary: "#FF6B35",
+  primaryDark: "#E85A24",
+  secondary: "#2F855A",
 
-  background: "#FFFFFF",
-  surface: "#F9FAFB",
+  background: "#F8F9FA",
+  surface: "#F3F4F6",
+  white: "#FFFFFF",
 
-  text: "#111827",
+  text: "#1F2937",
   textSecondary: "#6B7280",
-  placeholder: "#9CA3AF",
 
   border: "#E5E7EB",
-  divider: "#F3F4F6",
 
-  success: "#16A34A",
-  warning: "#D97706",
-  error: "#DC2626",
+  success: "#22C55E",
+  warning: "#F59E0B",
+  danger: "#EF4444",
 
   disabled: "#D1D5DB",
-  overlay: "rgba(0, 0, 0, 0.4)",
+  disabledText: "#9CA3AF",
 
-  white: "#FFFFFF",
-  black: "#000000",
+  shadow: "#000000",
+
+  overlay: "rgba(0,0,0,0.08)",
 };
 
 export default Colors;

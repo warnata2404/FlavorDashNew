@@ -1,6 +1,6 @@
 import { CameraView } from "expo-camera";
 import { useRef, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import AppButton from "../../components/AppButton";
 import Loading from "../../components/Loading";
@@ -29,8 +29,6 @@ export default function CameraScreen() {
       });
 
       setPhotoUri(photo.uri);
-    } catch (error) {
-      console.error(error);
     } finally {
       setCapturing(false);
     }
@@ -43,35 +41,53 @@ export default function CameraScreen() {
   if (!granted) {
     return (
       <View style={styles.permissionContainer}>
+        <Text style={styles.permissionIcon}>📷</Text>
+
+        <Text style={styles.permissionTitle}>Camera Permission</Text>
+
         <Text style={styles.permissionText}>
-          FlavorDash memerlukan izin kamera untuk mengambil foto.
+          FlavorDash needs access to your camera to capture food photos.
         </Text>
 
-        <AppButton title="Izinkan Kamera" onPress={requestPermission} />
+        <AppButton title="Allow Camera Access" onPress={requestPermission} />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <CameraView ref={cameraRef} style={styles.camera} facing="back" />
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+    >
+      <Text style={styles.title}>Food Camera</Text>
 
-      <View style={styles.actionContainer}>
+      <Text style={styles.subtitle}>Capture your favorite meal.</Text>
+
+      <View style={styles.cameraCard}>
+        <CameraView ref={cameraRef} style={styles.camera} facing="back" />
+      </View>
+
+      <View style={styles.buttonContainer}>
         <AppButton
-          title={capturing ? "Mengambil Foto..." : "Ambil Foto"}
+          title={capturing ? "Capturing..." : "Capture Photo"}
           onPress={handleTakePhoto}
           disabled={capturing}
         />
       </View>
 
       {photoUri ? (
-        <Image
-          source={{ uri: photoUri }}
-          style={styles.preview}
-          resizeMode="cover"
-        />
+        <View style={styles.previewCard}>
+          <Text style={styles.previewTitle}>Preview</Text>
+
+          <Image
+            source={{ uri: photoUri }}
+            style={styles.preview}
+            resizeMode="cover"
+          />
+        </View>
       ) : null}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -81,17 +97,86 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
 
-  camera: {
-    flex: 1,
+  scrollContent: {
+    padding: Spacing.screenPadding,
+    paddingBottom: Spacing.xxl,
   },
 
-  actionContainer: {
-    padding: Spacing.screenPadding,
+  title: {
+    ...Typography.heading2,
+    color: Colors.text,
+  },
+
+  subtitle: {
+    ...Typography.body,
+    color: Colors.textSecondary,
+    marginTop: Spacing.sm,
+    marginBottom: Spacing.lg,
+  },
+
+  cameraCard: {
+    overflow: "hidden",
+
+    borderRadius: Spacing.borderRadius,
+
+    borderWidth: 1,
+    borderColor: Colors.border,
+
+    backgroundColor: Colors.white,
+
+    shadowColor: Colors.shadow,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
+    elevation: 3,
+  },
+
+  camera: {
+    width: "100%",
+    aspectRatio: 3 / 4,
+  },
+
+  buttonContainer: {
+    marginTop: Spacing.lg,
+  },
+
+  previewCard: {
+    marginTop: Spacing.xl,
+
+    backgroundColor: Colors.white,
+
+    borderRadius: Spacing.borderRadius,
+
+    padding: Spacing.lg,
+
+    borderWidth: 1,
+    borderColor: Colors.border,
+
+    shadowColor: Colors.shadow,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
+    elevation: 3,
+  },
+
+  previewTitle: {
+    ...Typography.title,
+    color: Colors.text,
+    marginBottom: Spacing.md,
   },
 
   preview: {
     width: "100%",
     height: 220,
+    borderRadius: Spacing.inputRadius,
     backgroundColor: Colors.surface,
   },
 
@@ -99,14 +184,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+
     padding: Spacing.screenPadding,
+
     backgroundColor: Colors.background,
+  },
+
+  permissionIcon: {
+    fontSize: 64,
+    marginBottom: Spacing.lg,
+  },
+
+  permissionTitle: {
+    ...Typography.heading3,
+    color: Colors.text,
+    marginBottom: Spacing.sm,
   },
 
   permissionText: {
     ...Typography.body,
-    color: Colors.text,
+    color: Colors.textSecondary,
     textAlign: "center",
-    marginBottom: Spacing.lg,
+    marginBottom: Spacing.xl,
+    lineHeight: 24,
   },
 });

@@ -47,31 +47,51 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <View style={styles.card}>
+        <Text style={styles.logo}>🍔</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={username}
-        onChangeText={setUsername}
-      />
+        <Text style={styles.title}>FlavorDash</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        autoCorrect={false}
-        value={password}
-        onChangeText={setPassword}
-      />
+        <Text style={styles.subtitle}>Welcome back! Sign in to continue.</Text>
 
-      <AppButton
-        title={loading ? "Loading..." : "Login"}
-        onPress={handleLogin}
-        disabled={loading}
-      />
+        <View style={styles.form}>
+          <Text style={styles.label}>Username</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your username"
+            placeholderTextColor={Colors.textSecondary}
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={username}
+            onChangeText={setUsername}
+          />
+
+          <Text style={styles.label}>Password</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            placeholderTextColor={Colors.textSecondary}
+            secureTextEntry
+            autoCorrect={false}
+            value={password}
+            onChangeText={setPassword}
+          />
+
+          <AppButton
+            title={loading ? "Signing In..." : "Login"}
+            onPress={handleLogin}
+            disabled={loading}
+          />
+        </View>
+
+        <Text style={styles.demo}>
+          Demo Account{"\n"}
+          Username : admin{"\n"}
+          Password : admin123
+        </Text>
+      </View>
     </View>
   );
 }
@@ -79,27 +99,102 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     justifyContent: "center",
-    padding: Spacing.screenPadding,
+
     backgroundColor: Colors.background,
+
+    padding: Spacing.screenPadding,
+  },
+
+  card: {
+    backgroundColor: Colors.white,
+
+    borderRadius: Spacing.borderRadius,
+
+    padding: Spacing.xl,
+
+    borderWidth: 1,
+    borderColor: Colors.border,
+
+    shadowColor: Colors.shadow,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
+    elevation: 3,
+  },
+
+  logo: {
+    fontSize: 56,
+
+    textAlign: "center",
   },
 
   title: {
     ...Typography.heading2,
-    color: Colors.text,
+
     textAlign: "center",
-    marginBottom: Spacing.xl,
+
+    color: Colors.text,
+
+    marginTop: Spacing.md,
+  },
+
+  subtitle: {
+    ...Typography.body,
+
+    color: Colors.textSecondary,
+
+    textAlign: "center",
+
+    marginTop: Spacing.sm,
+  },
+
+  form: {
+    marginTop: Spacing.xl,
+  },
+
+  label: {
+    ...Typography.bodySmall,
+
+    color: Colors.text,
+
+    fontWeight: "600",
+
+    marginBottom: Spacing.sm,
   },
 
   input: {
+    backgroundColor: Colors.white,
+
     borderWidth: 1,
     borderColor: Colors.border,
-    borderRadius: Spacing.borderRadius,
-    paddingHorizontal: Spacing.md,
+
+    borderRadius: Spacing.inputRadius,
+
+    paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
-    marginBottom: Spacing.md,
-    backgroundColor: Colors.white,
+
+    marginBottom: Spacing.lg,
+
     color: Colors.text,
+
     ...Typography.body,
+  },
+
+  demo: {
+    ...Typography.caption,
+
+    color: Colors.textSecondary,
+
+    textAlign: "center",
+
+    marginTop: Spacing.xl,
+
+    lineHeight: 20,
   },
 });

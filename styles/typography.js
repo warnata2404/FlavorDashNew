@@ -1,6 +1,6 @@
 const Typography = {
   heading1: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "700",
   },
 
@@ -14,14 +14,21 @@ const Typography = {
     fontWeight: "600",
   },
 
+  title: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+
   body: {
     fontSize: 16,
     fontWeight: "400",
+    lineHeight: 24,
   },
 
   bodySmall: {
     fontSize: 14,
     fontWeight: "400",
+    lineHeight: 20,
   },
 
   caption: {

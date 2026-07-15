@@ -21,20 +21,40 @@ export default function AppHeader({ title, subtitle = null }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
+
     paddingHorizontal: Spacing.screenPadding,
-    paddingVertical: Spacing.lg,
+    paddingTop: Spacing.xl,
+    paddingBottom: Spacing.lg,
+
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
+
+    shadowColor: Colors.shadow,
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+
+    elevation: 2,
   },
 
   title: {
     ...Typography.heading2,
+
     color: Colors.text,
+
+    fontWeight: "700",
   },
 
   subtitle: {
     ...Typography.bodySmall,
+
     color: Colors.textSecondary,
-    marginTop: Spacing.xs,
+
+    marginTop: Spacing.sm,
+
+    lineHeight: 22,
   },
 });

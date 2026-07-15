@@ -7,20 +7,26 @@ export default function FoodCard({ name, category, price, image, onPress }) {
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
     >
       <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
 
       <View style={styles.content}>
-        <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
+        <View style={styles.categoryContainer}>
+          <Text style={styles.category}>{category}</Text>
+        </View>
+
+        <Text style={styles.name} numberOfLines={2}>
           {name}
         </Text>
 
-        <Text style={styles.category} numberOfLines={1} ellipsizeMode="tail">
-          {category}
-        </Text>
+        <View style={styles.footer}>
+          <Text style={styles.price}>{formatCurrency(price)}</Text>
 
-        <Text style={styles.price}>{formatCurrency(price)}</Text>
+          <View style={styles.action}>
+            <Text style={styles.actionText}>View Detail →</Text>
+          </View>
+        </View>
       </View>
     </Pressable>
   );
@@ -29,19 +35,32 @@ export default function FoodCard({ name, category, price, image, onPress }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.white,
+
     borderRadius: Spacing.borderRadius,
+
     overflow: "hidden",
+
     borderWidth: 1,
     borderColor: Colors.border,
+
+    shadowColor: Colors.shadow,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
+    elevation: 3,
   },
 
-  pressed: {
-    opacity: 0.9,
+  cardPressed: {
+    transform: [{ scale: 0.98 }],
   },
 
   image: {
     width: "100%",
-    height: 180,
+    height: 190,
     backgroundColor: Colors.surface,
   },
 
@@ -49,20 +68,67 @@ const styles = StyleSheet.create({
     padding: Spacing.cardPadding,
   },
 
-  name: {
-    ...Typography.heading3,
-    color: Colors.text,
+  categoryContainer: {
+    alignSelf: "flex-start",
+
+    backgroundColor: Colors.surface,
+
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+
+    borderRadius: 999,
   },
 
   category: {
-    ...Typography.bodySmall,
-    color: Colors.textSecondary,
-    marginTop: Spacing.xs,
+    ...Typography.caption,
+
+    color: Colors.secondary,
+
+    fontWeight: "600",
+  },
+
+  name: {
+    ...Typography.heading3,
+
+    color: Colors.text,
+
+    marginTop: Spacing.md,
+
+    lineHeight: 28,
+  },
+
+  footer: {
+    marginTop: Spacing.lg,
+
+    flexDirection: "row",
+
+    justifyContent: "space-between",
+
+    alignItems: "center",
   },
 
   price: {
-    ...Typography.button,
+    ...Typography.title,
+
     color: Colors.primary,
-    marginTop: Spacing.md,
+
+    fontWeight: "700",
+  },
+
+  action: {
+    backgroundColor: Colors.primary,
+
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+
+    borderRadius: Spacing.buttonRadius,
+  },
+
+  actionText: {
+    ...Typography.caption,
+
+    color: Colors.white,
+
+    fontWeight: "600",
   },
 });
