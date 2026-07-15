@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
 import AppButton from "../../components/AppButton";
@@ -19,10 +19,13 @@ export default function OrderDetailScreen() {
     try {
       const result = await order(food);
 
-      Alert.alert(
-        "Order Success",
-        `Order #${result.id} has been created successfully.`,
-      );
+      router.replace({
+        pathname: "/(protected)/order/confirmation",
+        params: {
+          orderId: result.id.toString(),
+          foodName: food.name,
+        },
+      });
     } catch (err) {
       Alert.alert(
         "Order Failed",
