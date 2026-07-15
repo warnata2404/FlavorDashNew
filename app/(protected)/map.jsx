@@ -4,6 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import AppButton from "../../components/AppButton";
 import EmptyState from "../../components/EmptyState";
 import Loading from "../../components/Loading";
+import APP_CONFIG from "../../config/app";
 import useLocation from "../../hooks/useLocation";
 import { Colors, Spacing, Typography } from "../../styles";
 
@@ -26,12 +27,7 @@ export default function MapScreen() {
 
       <MapView
         style={styles.map}
-        initialRegion={{
-          latitude,
-          longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }}
+        initialRegion={APP_CONFIG.DEFAULT_MAP}
         showsUserLocation
         showsMyLocationButton
       >

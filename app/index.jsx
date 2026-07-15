@@ -9,6 +9,7 @@ import Loading from "../components/Loading";
 import { useAuth } from "../context/AuthContext";
 import useFoods from "../hooks/useFoods";
 import Routes from "../navigation/routes";
+import APP_CONFIG from "../config/app";
 import { Colors, Spacing } from "../styles";
 
 export default function HomeScreen() {
@@ -49,7 +50,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="FlavorDash" subtitle="Discover your favorite foods" />
+      <AppHeader title={APP_CONFIG.NAME} subtitle={APP_CONFIG.SUBTITLE} />
 
       <View style={styles.headerAction}>
         {authenticated ? (
