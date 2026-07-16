@@ -2,23 +2,22 @@
 
 ## Deskripsi
 
-FlavorDash adalah aplikasi katalog makanan berbasis React Native (Expo) yang dikembangkan sebagai tugas mata kuliah Aplikasi Mobile.
-
-Aplikasi ini menampilkan katalog makanan, mendukung autentikasi pengguna menggunakan konsep Stateless Authentication (JWT Mock), melindungi halaman Detail Pesanan menggunakan Route Protection, serta menyediakan fitur Camera dan Maps.
+FlavorDash adalah aplikasi mobile berbasis **React Native (Expo)** yang dikembangkan sebagai tugas mata kuliah **Aplikasi Mobile**. Aplikasi ini menampilkan katalog makanan, mendukung autentikasi pengguna, pemesanan makanan, riwayat pesanan, kamera, dan peta lokasi menggunakan Mock API.
 
 ---
 
 ## Fitur
 
-- Login Authentication (JWT Mock)
-- Route Protection menggunakan Expo Router
-- Katalog Makanan
-- Detail Pesanan
-- Mock API
+- Login Authentication (Mock JWT)
+- Home (Daftar Makanan)
+- Pencarian Makanan
+- Filter Kategori
+- Detail Makanan
+- Pemesanan Makanan
+- Riwayat Pesanan
 - Camera
 - Maps
-- Marker Lokasi
-- Responsive Layout menggunakan Flexbox
+- Responsive Layout
 
 ---
 
@@ -34,26 +33,7 @@ Aplikasi ini menampilkan katalog makanan, mendukung autentikasi pengguna menggun
 
 ---
 
-## Struktur Folder
-
-```text
-app/
-components/
-config/
-constants/
-context/
-hooks/
-mock/
-navigation/
-services/
-styles/
-utils/
-assets/
-```
-
----
-
-## Cara Menjalankan Project
+## Cara Menjalankan Aplikasi
 
 ### 1. Clone Repository
 
@@ -61,15 +41,11 @@ assets/
 git clone <repository-url>
 ```
 
----
-
 ### 2. Masuk ke Folder Project
 
 ```bash
 cd FlavorDash
 ```
-
----
 
 ### 3. Install Dependency
 
@@ -77,15 +53,13 @@ cd FlavorDash
 npm install
 ```
 
----
-
-### 4. Jalankan Project
+### 4. Jalankan Aplikasi
 
 ```bash
 npx expo start
 ```
 
-Kemudian jalankan menggunakan:
+Selanjutnya jalankan aplikasi menggunakan:
 
 - Android Emulator
 - Expo Go
@@ -95,62 +69,28 @@ Kemudian jalankan menggunakan:
 
 ## Akun Login
 
-Username
-
 ```text
-admin
-```
-
-Password
-
-```text
-admin123
+Username : admin
+Password : admin123
 ```
 
 ---
 
-## Struktur Fitur
+## Dokumentasi Singkat
 
-### Home
-
-Menampilkan daftar makanan.
-
-### Login
-
-Melakukan autentikasi pengguna menggunakan JWT Mock.
-
-### Detail Pesanan
-
-Menampilkan detail makanan dan melakukan proses pemesanan.
-
-Halaman ini hanya dapat diakses oleh pengguna yang telah login.
-
-### Camera
-
-Mengambil foto sebagai bukti penerimaan pesanan.
-
-### Maps
-
-Menampilkan lokasi restoran menggunakan peta beserta marker.
-
----
-
-## API
-
-Project menggunakan Mock API berupa data lokal.
-
----
-
-## Repository
-
-Source code dikelola menggunakan Git dan GitHub sesuai ketentuan tugas.
+- Home menampilkan daftar makanan beserta fitur pencarian dan kategori.
+- Login digunakan untuk autentikasi pengguna.
+- Detail Makanan menampilkan informasi lengkap dan proses pemesanan.
+- Orders menampilkan riwayat pesanan pengguna.
+- Camera digunakan untuk mengambil foto.
+- Maps menampilkan lokasi pengguna menggunakan GPS.
 
 ---
 
 ## Author
 
-Nama : Warnata
+**Nama:** Warnata
 
-NIM : 411231103
+**NIM:** 411231103
 
-Mata Kuliah : Aplikasi Mobile
+**Mata Kuliah:** Aplikasi Mobile
