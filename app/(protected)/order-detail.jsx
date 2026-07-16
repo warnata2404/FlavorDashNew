@@ -14,6 +14,7 @@ import AppButton from "../../components/AppButton";
 import EmptyState from "../../components/EmptyState";
 import Loading from "../../components/Loading";
 import { ORDER } from "../../constants/order";
+import { useAuth } from "../../context/AuthContext";
 import useFoodDetail from "../../hooks/useFoodDetail";
 import useOrder from "../../hooks/useOrder";
 import Routes from "../../navigation/routes";
@@ -27,13 +28,17 @@ export default function OrderDetailScreen() {
 
   const { order, loading: ordering, hasOrderedFood } = useOrder();
 
+  const { authenticated } = useAuth();
+
   const [ordered, setOrdered] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     async function checkOrderStatus() {
-      if (!food) return;
+      if (!food) {
+        return;
+      }
 
       const exists = await hasOrderedFood(food.id);
 
@@ -50,6 +55,25 @@ export default function OrderDetailScreen() {
   }, [food, hasOrderedFood]);
 
   async function handleOrder() {
+    if (!authenticated) {
+      Alert.alert(
+        "Login Required",
+        "Please login first before placing an order.",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Login",
+            onPress: () => router.push(Routes.LOGIN),
+          },
+        ],
+      );
+
+      return;
+    }
+
     try {
       const result = await order(food);
 
@@ -247,7 +271,7 @@ const styles = StyleSheet.create({
   },
 
   ratingBadge: {
-    backgroundColor: "#FFF8E7",
+    backgroundColor: Colors.warningLight,
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 6,

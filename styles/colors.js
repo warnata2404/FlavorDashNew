@@ -22,6 +22,12 @@ const Colors = {
   shadow: "#000000",
 
   overlay: "rgba(0,0,0,0.08)",
+
+  successLight: "#EAFBF1",
+
+  dangerLight: "#FEE2E2",
+
+  warningLight: "#FFF8E1",
 };
 
 export default Colors;

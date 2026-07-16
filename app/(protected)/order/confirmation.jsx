@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import AppButton from "../../../components/AppButton";
 import Routes from "../../../navigation/routes";
 import { Colors, Spacing, Typography } from "../../../styles";
+import { ORDER } from "../../../constants/order";
 
 export default function OrderConfirmationScreen() {
   const { orderId, foodName } = useLocalSearchParams();
@@ -48,7 +49,7 @@ export default function OrderConfirmationScreen() {
           <Text style={styles.label}>Status</Text>
 
           <View style={styles.statusBadge}>
-            <Text style={styles.statusText}>🍳 Preparing</Text>
+            <Text style={styles.statusText}>🍳 {ORDER.STATUS_PREPARING}</Text>
           </View>
         </View>
       </View>
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 45,
 
-    backgroundColor: "#EAFBF1",
+    backgroundColor: Colors.successLight,
 
     justifyContent: "center",
     alignItems: "center",

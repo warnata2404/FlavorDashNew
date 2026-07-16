@@ -7,7 +7,7 @@ export async function createOrder(food) {
     id: Date.now(),
     food,
     orderDate: new Date().toISOString(),
-    status: ORDER.STATUS_SUCCESS,
+    status: ORDER.STATUS_PREPARING,
   };
 
   orders.push(order);
