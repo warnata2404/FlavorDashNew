@@ -1,6 +1,14 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import AppButton from "../../components/AppButton";
 import EmptyState from "../../components/EmptyState";
@@ -25,9 +33,7 @@ export default function OrderDetailScreen() {
     let isMounted = true;
 
     async function checkOrderStatus() {
-      if (!food) {
-        return;
-      }
+      if (!food) return;
 
       const exists = await hasOrderedFood(food.id);
 
@@ -78,29 +84,64 @@ export default function OrderDetailScreen() {
       contentContainerStyle={styles.scrollContent}
       showsVerticalScrollIndicator={false}
     >
-      <Image
-        source={{ uri: food.image }}
-        style={styles.image}
-        resizeMode="cover"
-      />
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: food.image }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+
+        <Pressable onPress={() => router.back()} style={styles.backButton}>
+          <Text style={styles.backText}>←</Text>
+        </Pressable>
+      </View>
 
       <View style={styles.card}>
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>{food.category}</Text>
+        <View style={styles.topRow}>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{food.category}</Text>
+          </View>
+
+          <View style={styles.ratingBadge}>
+            <Text style={styles.rating}>⭐ 4.8</Text>
+          </View>
         </View>
 
         <Text style={styles.name}>{food.name}</Text>
 
         <Text style={styles.description}>
-          Freshly prepared with quality ingredients, delicious flavor, and ready
-          to satisfy your appetite.
+          Freshly prepared using premium ingredients with balanced seasoning and
+          delicious taste, ready to satisfy your appetite.
         </Text>
 
-        <View style={styles.divider} />
+        <View style={styles.infoCard}>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoIcon}>💰</Text>
 
-        <Text style={styles.priceLabel}>Price</Text>
+            <Text style={styles.infoLabel}>Price</Text>
 
-        <Text style={styles.price}>{formatCurrency(food.price)}</Text>
+            <Text style={styles.price}>{formatCurrency(food.price)}</Text>
+          </View>
+
+          <View style={styles.infoDivider} />
+
+          <View style={styles.infoItem}>
+            <Text style={styles.infoIcon}>⏱️</Text>
+
+            <Text style={styles.infoLabel}>Estimated</Text>
+
+            <Text style={styles.infoValue}>15–20 min</Text>
+          </View>
+        </View>
+
+        <View style={styles.aboutSection}>
+          <Text style={styles.sectionTitle}>About this Menu</Text>
+
+          <Text style={styles.sectionDescription}>
+            This menu is prepared fresh every day using selected ingredients and
+            is suitable for lunch, dinner, or sharing with friends and family.
+          </Text>
+        </View>
 
         <View style={styles.buttonContainer}>
           <AppButton
@@ -130,21 +171,45 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.xxl,
   },
 
+  imageContainer: {
+    position: "relative",
+  },
+
   image: {
     width: "100%",
-    height: 280,
-
+    height: 260,
     backgroundColor: Colors.surface,
   },
 
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+
+    width: 42,
+    height: 42,
+
+    borderRadius: 21,
+
+    backgroundColor: "rgba(255,255,255,0.95)",
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  backText: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: Colors.text,
+  },
+
   card: {
-    backgroundColor: Colors.white,
-
-    marginTop: -20,
-
+    marginTop: -22,
     marginHorizontal: Spacing.screenPadding,
 
-    borderRadius: Spacing.borderRadius,
+    backgroundColor: Colors.white,
+
+    borderRadius: 20,
 
     padding: Spacing.xl,
 
@@ -159,69 +224,118 @@ const styles = StyleSheet.create({
       height: 4,
     },
 
-    elevation: 3,
+    elevation: 4,
+  },
+
+  topRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 
   badge: {
-    alignSelf: "flex-start",
-
     backgroundColor: Colors.surface,
-
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.xs,
-
     borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
   },
 
   badgeText: {
     ...Typography.caption,
-
     color: Colors.secondary,
+    fontWeight: "700",
+  },
 
-    fontWeight: "600",
+  ratingBadge: {
+    backgroundColor: "#FFF8E7",
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+
+  rating: {
+    ...Typography.caption,
+    color: Colors.warning,
+    fontWeight: "700",
   },
 
   name: {
     ...Typography.heading2,
-
     color: Colors.text,
-
     marginTop: Spacing.lg,
   },
 
   description: {
     ...Typography.body,
-
     color: Colors.textSecondary,
-
-    marginTop: Spacing.md,
-
     lineHeight: 24,
+    marginTop: Spacing.md,
   },
 
-  divider: {
-    height: 1,
+  infoCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
 
+    marginTop: Spacing.xl,
+
+    backgroundColor: Colors.surface,
+
+    borderRadius: 16,
+
+    padding: Spacing.lg,
+  },
+
+  infoItem: {
+    flex: 1,
+    alignItems: "center",
+  },
+
+  infoIcon: {
+    fontSize: 20,
+    marginBottom: 6,
+  },
+
+  infoDivider: {
+    width: 1,
+    height: 60,
     backgroundColor: Colors.border,
-
-    marginVertical: Spacing.xl,
   },
 
-  priceLabel: {
+  infoLabel: {
     ...Typography.bodySmall,
-
     color: Colors.textSecondary,
   },
 
   price: {
-    ...Typography.heading2,
-
+    ...Typography.heading3,
     color: Colors.primary,
+    marginTop: 4,
+  },
 
+  infoValue: {
+    ...Typography.title,
+    color: Colors.text,
+    marginTop: 4,
+  },
+
+  aboutSection: {
+    marginTop: Spacing.xl,
+  },
+
+  sectionTitle: {
+    ...Typography.title,
+    color: Colors.text,
+  },
+
+  sectionDescription: {
+    ...Typography.bodySmall,
+    color: Colors.textSecondary,
+    lineHeight: 22,
     marginTop: Spacing.sm,
   },
 
   buttonContainer: {
-    marginTop: Spacing.xl,
+    marginTop: Spacing.xxl,
   },
 });

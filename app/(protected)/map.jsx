@@ -36,11 +36,13 @@ export default function MapScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.title}>Current Location</Text>
+      <View style={styles.headerCard}>
+        <Text style={styles.title}>Restaurant Location</Text>
 
-      <Text style={styles.subtitle}>
-        Your current device location is displayed below.
-      </Text>
+        <Text style={styles.subtitle}>
+          View your current location and nearby restaurant position.
+        </Text>
+      </View>
 
       <View style={styles.mapCard}>
         <MapView
@@ -66,18 +68,10 @@ export default function MapScreen() {
       </View>
 
       <View style={styles.infoCard}>
-        <Text style={styles.sectionTitle}>Location Information</Text>
+        <Text style={styles.sectionTitle}>Current Position</Text>
 
-        <View style={styles.infoGroup}>
-          <Text style={styles.label}>Coordinates</Text>
-
-          <Text style={styles.value}>{coordinateText}</Text>
-        </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.infoGroup}>
-          <Text style={styles.label}>Address</Text>
+        <View style={styles.infoBlock}>
+          <Text style={styles.label}>📍 Address</Text>
 
           {addressLines.length > 0 ? (
             addressLines.map((item, index) => (
@@ -89,6 +83,24 @@ export default function MapScreen() {
             <Text style={styles.value}>Address not available.</Text>
           )}
         </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.infoBlock}>
+          <Text style={styles.label}>🌍 Coordinates</Text>
+
+          <Text style={styles.coordinate}>{coordinateText}</Text>
+        </View>
+      </View>
+
+      <View style={styles.tipCard}>
+        <Text style={styles.tipTitle}>Tips</Text>
+
+        <Text style={styles.tipText}>
+          • Enable GPS for higher accuracy.
+          {"\n"}• Tap Refresh if your location changes.
+          {"\n"}• Pinch the map to zoom in or out.
+        </Text>
       </View>
 
       <AppButton title="Refresh Location" onPress={refresh} />
@@ -107,6 +119,10 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.xxl,
   },
 
+  headerCard: {
+    marginBottom: Spacing.lg,
+  },
+
   title: {
     ...Typography.heading2,
     color: Colors.text,
@@ -116,13 +132,13 @@ const styles = StyleSheet.create({
     ...Typography.body,
     color: Colors.textSecondary,
     marginTop: Spacing.sm,
-    marginBottom: Spacing.lg,
+    lineHeight: 22,
   },
 
   mapCard: {
     overflow: "hidden",
 
-    borderRadius: Spacing.borderRadius,
+    borderRadius: 20,
 
     borderWidth: 1,
     borderColor: Colors.border,
@@ -139,21 +155,22 @@ const styles = StyleSheet.create({
 
     elevation: 3,
 
+    marginTop: Spacing.lg,
     marginBottom: Spacing.xl,
   },
 
   map: {
     width: "100%",
-    height: 350,
+    height: 320,
   },
 
   infoCard: {
     backgroundColor: Colors.white,
 
+    borderRadius: 20,
+
     borderWidth: 1,
     borderColor: Colors.border,
-
-    borderRadius: Spacing.borderRadius,
 
     padding: Spacing.xl,
 
@@ -176,8 +193,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
 
-  infoGroup: {
-    gap: Spacing.xs,
+  infoBlock: {
+    gap: Spacing.sm,
   },
 
   divider: {
@@ -189,12 +206,52 @@ const styles = StyleSheet.create({
   label: {
     ...Typography.bodySmall,
     color: Colors.textSecondary,
+    fontWeight: "600",
   },
 
   value: {
     ...Typography.body,
     color: Colors.text,
-    fontWeight: "600",
+    lineHeight: 24,
+  },
+
+  coordinate: {
+    ...Typography.title,
+    color: Colors.primary,
+  },
+
+  tipCard: {
+    backgroundColor: Colors.white,
+
+    borderRadius: 20,
+
+    borderWidth: 1,
+    borderColor: Colors.border,
+
+    padding: Spacing.xl,
+
+    marginBottom: Spacing.xl,
+
+    shadowColor: Colors.shadow,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
+    elevation: 3,
+  },
+
+  tipTitle: {
+    ...Typography.title,
+    color: Colors.text,
+    marginBottom: Spacing.md,
+  },
+
+  tipText: {
+    ...Typography.bodySmall,
+    color: Colors.textSecondary,
     lineHeight: 24,
   },
 });

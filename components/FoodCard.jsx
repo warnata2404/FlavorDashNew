@@ -12,19 +12,29 @@ export default function FoodCard({ name, category, price, image, onPress }) {
       <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
 
       <View style={styles.content}>
-        <View style={styles.categoryContainer}>
-          <Text style={styles.category}>{category}</Text>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText} numberOfLines={1}>
+            {category}
+          </Text>
         </View>
 
         <Text style={styles.name} numberOfLines={2}>
           {name}
         </Text>
 
-        <View style={styles.footer}>
-          <Text style={styles.price}>{formatCurrency(price)}</Text>
+        <Text style={styles.description} numberOfLines={2}>
+          Fresh ingredients with delicious taste, ready to enjoy anytime.
+        </Text>
 
-          <View style={styles.action}>
-            <Text style={styles.actionText}>View Detail →</Text>
+        <View style={styles.footer}>
+          <View>
+            <Text style={styles.priceLabel}>Price</Text>
+
+            <Text style={styles.price}>{formatCurrency(price)}</Text>
+          </View>
+
+          <View style={styles.detailButton}>
+            <Text style={styles.detailText}>Detail →</Text>
           </View>
         </View>
       </View>
@@ -36,7 +46,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.white,
 
-    borderRadius: Spacing.borderRadius,
+    borderRadius: 20,
 
     overflow: "hidden",
 
@@ -51,7 +61,7 @@ const styles = StyleSheet.create({
       height: 4,
     },
 
-    elevation: 3,
+    elevation: 4,
   },
 
   cardPressed: {
@@ -60,31 +70,32 @@ const styles = StyleSheet.create({
 
   image: {
     width: "100%",
-    height: 190,
+    height: 210,
+
     backgroundColor: Colors.surface,
   },
 
   content: {
-    padding: Spacing.cardPadding,
+    padding: Spacing.xl,
   },
 
-  categoryContainer: {
+  badge: {
     alignSelf: "flex-start",
 
-    backgroundColor: Colors.surface,
+    backgroundColor: "#FFF4EB",
 
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.xs,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
 
     borderRadius: 999,
   },
 
-  category: {
+  badgeText: {
     ...Typography.caption,
 
-    color: Colors.secondary,
+    color: Colors.primary,
 
-    fontWeight: "600",
+    fontWeight: "700",
   },
 
   name: {
@@ -93,42 +104,56 @@ const styles = StyleSheet.create({
     color: Colors.text,
 
     marginTop: Spacing.md,
+  },
 
-    lineHeight: 28,
+  description: {
+    ...Typography.bodySmall,
+
+    color: Colors.textSecondary,
+
+    marginTop: Spacing.sm,
+
+    lineHeight: 20,
   },
 
   footer: {
-    marginTop: Spacing.lg,
+    marginTop: Spacing.xl,
 
     flexDirection: "row",
 
     justifyContent: "space-between",
 
-    alignItems: "center",
+    alignItems: "flex-end",
+  },
+
+  priceLabel: {
+    ...Typography.caption,
+
+    color: Colors.textSecondary,
   },
 
   price: {
-    ...Typography.title,
+    ...Typography.heading3,
 
     color: Colors.primary,
 
-    fontWeight: "700",
+    marginTop: 2,
   },
 
-  action: {
+  detailButton: {
     backgroundColor: Colors.primary,
 
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
 
-    borderRadius: Spacing.buttonRadius,
+    borderRadius: 12,
   },
 
-  actionText: {
-    ...Typography.caption,
+  detailText: {
+    ...Typography.bodySmall,
 
     color: Colors.white,
 
-    fontWeight: "600",
+    fontWeight: "700",
   },
 });

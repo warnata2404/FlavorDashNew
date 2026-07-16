@@ -41,12 +41,15 @@ export default function CameraScreen() {
   if (!granted) {
     return (
       <View style={styles.permissionContainer}>
-        <Text style={styles.permissionIcon}>📷</Text>
+        <View style={styles.permissionIconContainer}>
+          <Text style={styles.permissionIcon}>📷</Text>
+        </View>
 
-        <Text style={styles.permissionTitle}>Camera Permission</Text>
+        <Text style={styles.permissionTitle}>Camera Permission Required</Text>
 
         <Text style={styles.permissionText}>
-          FlavorDash needs access to your camera to capture food photos.
+          Allow camera access to capture food photos and complete your order
+          experience.
         </Text>
 
         <AppButton title="Allow Camera Access" onPress={requestPermission} />
@@ -60,9 +63,13 @@ export default function CameraScreen() {
       contentContainerStyle={styles.scrollContent}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.title}>Food Camera</Text>
+      <View style={styles.headerCard}>
+        <Text style={styles.title}>Food Camera</Text>
 
-      <Text style={styles.subtitle}>Capture your favorite meal.</Text>
+        <Text style={styles.subtitle}>
+          Capture your delicious meal before enjoying it.
+        </Text>
+      </View>
 
       <View style={styles.cameraCard}>
         <CameraView ref={cameraRef} style={styles.camera} facing="back" />
@@ -76,17 +83,33 @@ export default function CameraScreen() {
         />
       </View>
 
-      {photoUri ? (
-        <View style={styles.previewCard}>
-          <Text style={styles.previewTitle}>Preview</Text>
+      <View style={styles.infoCard}>
+        <Text style={styles.infoTitle}>Tips</Text>
 
+        <Text style={styles.infoText}>
+          • Keep the camera steady.
+          {"\n"}• Ensure good lighting.
+          {"\n"}• Center the food before capturing.
+        </Text>
+      </View>
+
+      <View style={styles.previewCard}>
+        <Text style={styles.previewTitle}>Latest Photo</Text>
+
+        {photoUri ? (
           <Image
             source={{ uri: photoUri }}
             style={styles.preview}
             resizeMode="cover"
           />
-        </View>
-      ) : null}
+        ) : (
+          <View style={styles.emptyPreview}>
+            <Text style={styles.emptyIcon}>🖼️</Text>
+
+            <Text style={styles.emptyText}>No photo captured yet.</Text>
+          </View>
+        )}
+      </View>
     </ScrollView>
   );
 }
@@ -102,6 +125,10 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.xxl,
   },
 
+  headerCard: {
+    marginBottom: Spacing.lg,
+  },
+
   title: {
     ...Typography.heading2,
     color: Colors.text,
@@ -111,13 +138,13 @@ const styles = StyleSheet.create({
     ...Typography.body,
     color: Colors.textSecondary,
     marginTop: Spacing.sm,
-    marginBottom: Spacing.lg,
+    lineHeight: 22,
   },
 
   cameraCard: {
     overflow: "hidden",
 
-    borderRadius: Spacing.borderRadius,
+    borderRadius: 20,
 
     borderWidth: 1,
     borderColor: Colors.border,
@@ -144,17 +171,52 @@ const styles = StyleSheet.create({
     marginTop: Spacing.lg,
   },
 
+  infoCard: {
+    marginTop: Spacing.xl,
+
+    backgroundColor: Colors.white,
+
+    borderRadius: 20,
+
+    borderWidth: 1,
+    borderColor: Colors.border,
+
+    padding: Spacing.xl,
+
+    shadowColor: Colors.shadow,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+
+    elevation: 3,
+  },
+
+  infoTitle: {
+    ...Typography.title,
+    color: Colors.text,
+    marginBottom: Spacing.md,
+  },
+
+  infoText: {
+    ...Typography.bodySmall,
+    color: Colors.textSecondary,
+    lineHeight: 24,
+  },
+
   previewCard: {
     marginTop: Spacing.xl,
 
     backgroundColor: Colors.white,
 
-    borderRadius: Spacing.borderRadius,
-
-    padding: Spacing.lg,
+    borderRadius: 20,
 
     borderWidth: 1,
     borderColor: Colors.border,
+
+    padding: Spacing.lg,
 
     shadowColor: Colors.shadow,
     shadowOpacity: 0.08,
@@ -176,12 +238,36 @@ const styles = StyleSheet.create({
   preview: {
     width: "100%",
     height: 220,
-    borderRadius: Spacing.inputRadius,
+
+    borderRadius: 14,
+
     backgroundColor: Colors.surface,
+  },
+
+  emptyPreview: {
+    height: 220,
+
+    borderRadius: 14,
+
+    backgroundColor: Colors.surface,
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  emptyIcon: {
+    fontSize: 40,
+    marginBottom: Spacing.md,
+  },
+
+  emptyText: {
+    ...Typography.body,
+    color: Colors.textSecondary,
   },
 
   permissionContainer: {
     flex: 1,
+
     justifyContent: "center",
     alignItems: "center",
 
@@ -190,9 +276,22 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
 
+  permissionIconContainer: {
+    width: 100,
+    height: 100,
+
+    borderRadius: 50,
+
+    backgroundColor: Colors.surface,
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    marginBottom: Spacing.xl,
+  },
+
   permissionIcon: {
-    fontSize: 64,
-    marginBottom: Spacing.lg,
+    fontSize: 50,
   },
 
   permissionTitle: {
@@ -203,9 +302,13 @@ const styles = StyleSheet.create({
 
   permissionText: {
     ...Typography.body,
+
     color: Colors.textSecondary,
+
     textAlign: "center",
-    marginBottom: Spacing.xl,
+
     lineHeight: 24,
+
+    marginBottom: Spacing.xl,
   },
 });

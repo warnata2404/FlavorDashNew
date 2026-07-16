@@ -14,29 +14,67 @@ export default function OrderConfirmationScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.icon}>✅</Text>
+      <View style={styles.successContainer}>
+        <View style={styles.successIconContainer}>
+          <Text style={styles.icon}>✅</Text>
+        </View>
 
-      <Text style={styles.title}>Order Confirmed</Text>
+        <Text style={styles.title}>Order Successful</Text>
 
-      <Text style={styles.message}>
-        Thank you for your order. Your request has been created successfully.
-      </Text>
+        <Text style={styles.message}>
+          Thank you for your order. Your food has been received and is now being
+          prepared by our kitchen.
+        </Text>
+      </View>
 
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Order Information</Text>
 
         <View style={styles.infoRow}>
           <Text style={styles.label}>Order ID</Text>
-
-          <Text style={styles.value}>{orderId}</Text>
+          <Text style={styles.value}>#{orderId}</Text>
         </View>
 
         <View style={styles.divider} />
 
         <View style={styles.infoRow}>
-          <Text style={styles.label}>Food</Text>
-
+          <Text style={styles.label}>Food Menu</Text>
           <Text style={styles.value}>{foodName}</Text>
+        </View>
+
+        <View style={styles.divider} />
+
+        <View style={styles.infoRow}>
+          <Text style={styles.label}>Status</Text>
+
+          <View style={styles.statusBadge}>
+            <Text style={styles.statusText}>🍳 Preparing</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Next Steps</Text>
+
+        <View style={styles.stepRow}>
+          <Text style={styles.stepIcon}>📷</Text>
+          <Text style={styles.stepText}>
+            Capture your food using the Camera feature.
+          </Text>
+        </View>
+
+        <View style={styles.stepRow}>
+          <Text style={styles.stepIcon}>📍</Text>
+          <Text style={styles.stepText}>
+            View the restaurant location on the map.
+          </Text>
+        </View>
+
+        <View style={styles.stepRow}>
+          <Text style={styles.stepIcon}>🏠</Text>
+          <Text style={styles.stepText}>
+            Return to the home page to continue browsing.
+          </Text>
         </View>
       </View>
 
@@ -70,14 +108,31 @@ const styles = StyleSheet.create({
 
   content: {
     flexGrow: 1,
-    justifyContent: "center",
     padding: Spacing.screenPadding,
+    paddingBottom: Spacing.xxl,
+  },
+
+  successContainer: {
+    alignItems: "center",
+    marginBottom: Spacing.xl,
+  },
+
+  successIconContainer: {
+    width: 90,
+    height: 90,
+
+    borderRadius: 45,
+
+    backgroundColor: "#EAFBF1",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    marginBottom: Spacing.lg,
   },
 
   icon: {
-    fontSize: 72,
-    textAlign: "center",
-    marginBottom: Spacing.lg,
+    fontSize: 46,
   },
 
   title: {
@@ -91,17 +146,17 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     textAlign: "center",
     marginTop: Spacing.md,
-    marginBottom: Spacing.xl,
     lineHeight: 24,
+    paddingHorizontal: Spacing.sm,
   },
 
   card: {
     backgroundColor: Colors.white,
 
+    borderRadius: 20,
+
     borderWidth: 1,
     borderColor: Colors.border,
-
-    borderRadius: Spacing.borderRadius,
 
     padding: Spacing.xl,
 
@@ -125,7 +180,9 @@ const styles = StyleSheet.create({
   },
 
   infoRow: {
+    flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
 
   divider: {
@@ -137,13 +194,43 @@ const styles = StyleSheet.create({
   label: {
     ...Typography.bodySmall,
     color: Colors.textSecondary,
-    marginBottom: Spacing.xs,
   },
 
   value: {
     ...Typography.body,
     color: Colors.text,
-    fontWeight: "600",
+    fontWeight: "700",
+  },
+
+  statusBadge: {
+    backgroundColor: Colors.success,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: 999,
+  },
+
+  statusText: {
+    ...Typography.caption,
+    color: Colors.white,
+    fontWeight: "700",
+  },
+
+  stepRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: Spacing.lg,
+  },
+
+  stepIcon: {
+    fontSize: 20,
+    marginRight: Spacing.md,
+  },
+
+  stepText: {
+    flex: 1,
+    ...Typography.bodySmall,
+    color: Colors.textSecondary,
+    lineHeight: 22,
   },
 
   gap: {

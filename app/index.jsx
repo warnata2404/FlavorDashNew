@@ -1,23 +1,26 @@
 import { router } from "expo-router";
 import { useState } from "react";
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
-import AppButton from "../components/AppButton";
 import AppHeader from "../components/AppHeader";
+import CategoryChips from "../components/CategoryChips";
 import EmptyState from "../components/EmptyState";
 import FoodCard from "../components/FoodCard";
 import Loading from "../components/Loading";
+import SearchBar from "../components/SearchBar";
+import SectionHeader from "../components/SectionHeader";
 import APP_CONFIG from "../config/app";
 import { useAuth } from "../context/AuthContext";
 import useFoods from "../hooks/useFoods";
 import Routes from "../navigation/routes";
-import { Colors, Spacing } from "../styles";
+import { Spacing } from "../styles";
 
 export default function HomeScreen() {
   const { foods, loading } = useFoods();
   const { authenticated, signOut } = useAuth();
 
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   function handleFoodPress(food) {
     router.push({
@@ -34,16 +37,7 @@ export default function HomeScreen() {
 
   async function handleLogoutPress() {
     await signOut();
-
     router.replace(Routes.HOME);
-  }
-
-  function handleCameraPress() {
-    router.push(Routes.CAMERA);
-  }
-
-  function handleMapPress() {
-    router.push(Routes.MAP);
   }
 
   if (loading) {
@@ -59,58 +53,31 @@ export default function HomeScreen() {
     );
   }
 
+  const categories = ["All", ...new Set(foods.map((food) => food.category))];
+
+  const filteredFoods = foods.filter((food) => {
+    const keyword = searchKeyword.trim().toLowerCase();
+
+    const matchKeyword =
+      keyword === "" ||
+      food.name.toLowerCase().includes(keyword) ||
+      food.category.toLowerCase().includes(keyword);
+
+    const matchCategory =
+      selectedCategory === "All" || food.category === selectedCategory;
+
+    return matchKeyword && matchCategory;
+  });
+
   return (
-    <View style={styles.container}>
-      <AppHeader title={APP_CONFIG.NAME} subtitle={APP_CONFIG.SUBTITLE} />
-
-      <View style={styles.headerAction}>
-        {authenticated ? (
-          <>
-            <View style={styles.buttonRow}>
-              <View style={styles.buttonItem}>
-                <AppButton title="Camera" onPress={handleCameraPress} />
-              </View>
-
-              <View style={styles.buttonSpacer} />
-
-              <View style={styles.buttonItem}>
-                <AppButton title="Map" onPress={handleMapPress} />
-              </View>
-            </View>
-
-            <View style={styles.logoutContainer}>
-              <AppButton title="Logout" onPress={handleLogoutPress} />
-            </View>
-          </>
-        ) : (
-          <AppButton title="Login" onPress={handleLoginPress} />
-        )}
-      </View>
-
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search foods..."
-          placeholderTextColor={Colors.textSecondary}
-          value={searchKeyword}
-          onChangeText={setSearchKeyword}
-        />
-      </View>
-
-      <View style={styles.banner}>
-        <Text style={styles.bannerTitle}>🍔 Today's Special</Text>
-
-        <Text style={styles.bannerSubtitle}>
-          Discover delicious meals prepared especially for you.
-        </Text>
-      </View>
-
-      <FlatList
-        data={foods}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.list}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
+    <FlatList
+      data={filteredFoods}
+      keyExtractor={(item) => item.id.toString()}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.content}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      renderItem={({ item }) => (
+        <View style={styles.foodCardWrapper}>
           <FoodCard
             name={item.name}
             category={item.category}
@@ -118,109 +85,66 @@ export default function HomeScreen() {
             image={item.image}
             onPress={() => handleFoodPress(item)}
           />
-        )}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-      />
-    </View>
+        </View>
+      )}
+      ListHeaderComponent={
+        <>
+          <AppHeader
+            title={APP_CONFIG.NAME}
+            subtitle={APP_CONFIG.SUBTITLE}
+            authenticated={authenticated}
+            onActionPress={authenticated ? handleLogoutPress : handleLoginPress}
+          />
+
+          <View style={styles.searchContainer}>
+            <SearchBar
+              value={searchKeyword}
+              onChangeText={setSearchKeyword}
+              onClear={() => setSearchKeyword("")}
+            />
+          </View>
+
+          <SectionHeader
+            title="Categories"
+            subtitle="Browse foods by category"
+          />
+
+          <CategoryChips
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={setSelectedCategory}
+          />
+
+          <SectionHeader
+            title="Popular Foods"
+            subtitle="Choose your favorite meals"
+            rightText={`${filteredFoods.length} Items`}
+          />
+        </>
+      }
+      ListEmptyComponent={
+        <EmptyState
+          title="No Matching Foods"
+          message="Try another keyword or category."
+        />
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-
-  headerAction: {
-    paddingHorizontal: Spacing.screenPadding,
-    paddingVertical: Spacing.lg,
-  },
-
-  buttonRow: {
-    flexDirection: "row",
-  },
-
-  buttonItem: {
-    flex: 1,
-  },
-
-  buttonSpacer: {
-    width: Spacing.md,
-  },
-
-  logoutContainer: {
-    marginTop: Spacing.md,
+  content: {
+    paddingBottom: Spacing.xxl,
   },
 
   searchContainer: {
     paddingHorizontal: Spacing.screenPadding,
-    marginBottom: Spacing.lg,
+    marginTop: Spacing.lg,
+    marginBottom: Spacing.sm,
   },
 
-  searchInput: {
-    backgroundColor: Colors.white,
-
-    borderWidth: 1,
-    borderColor: Colors.border,
-
-    borderRadius: Spacing.inputRadius,
-
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-
-    color: Colors.text,
-
-    shadowColor: Colors.shadow,
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-
-    elevation: 1,
-  },
-
-  banner: {
-    marginHorizontal: Spacing.screenPadding,
-    marginBottom: Spacing.xl,
-
-    backgroundColor: Colors.primary,
-
-    borderRadius: Spacing.borderRadius,
-
-    padding: Spacing.xl,
-
-    shadowColor: Colors.shadow,
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-
-    elevation: 2,
-  },
-
-  bannerTitle: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: Colors.white,
-  },
-
-  bannerSubtitle: {
-    marginTop: Spacing.sm,
-
-    color: Colors.white,
-
-    fontSize: 14,
-
-    lineHeight: 22,
-  },
-
-  list: {
+  foodCardWrapper: {
     paddingHorizontal: Spacing.screenPadding,
-    paddingBottom: Spacing.xxl,
   },
 
   separator: {
